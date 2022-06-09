@@ -1,6 +1,7 @@
 package com.junitreview.junitdemo;
 
 import org.junit.jupiter.api.*;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 // @DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
@@ -33,7 +34,7 @@ class DemoUtilsTest {
     }
 
     @Test
-    @DisplayName("Test Same and not same")
+    @DisplayName("Same and not same")
     void testSameAndNotSame() {
         String str = "junit review";
         assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Objects should refer the same object");
@@ -49,8 +50,29 @@ class DemoUtilsTest {
         assertTrue(demoUtils.isGreater(gradeOne, gradeTwo), "should be return true");
         assertFalse(demoUtils.isGreater(gradeTwo, gradeOne), "should be return false");
     }
-}
-/* @BeforeAll
+
+    @Test
+    @DisplayName("Array Equals")
+    void testArrayEquals() {
+        String[] stringArray = {"A", "B", "C"};
+        assertArrayEquals(stringArray, demoUtils.getFirstThreeLettersOfAlphabet(), "Arrays should be the same");
+    }
+
+    @Test
+    @DisplayName("Iterable Equals")
+    void testIterableEquals() {
+        List<String> theList = List.of("luv", "2", "code");
+        assertIterableEquals(theList, demoUtils.getAcademyInList(), "Should be the same list");
+    }
+
+    @Test
+    @DisplayName("Lines Match")
+    void testLineMatch() {
+        List<String> theList = List.of("luv", "2", "code");
+        assertLinesMatch(theList, demoUtils.getAcademyInList(), "List should match");
+    }
+    /*
+    @BeforeAll
     static void setupBeforeEachClass() {
         System.out.println("Executes before all test methods");
     }
@@ -64,4 +86,5 @@ class DemoUtilsTest {
     void tearDownAfterEach() {
         System.out.println("Executes after each test case");
     }
-*/
+    */
+}
