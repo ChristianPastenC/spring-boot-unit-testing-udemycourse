@@ -28,6 +28,12 @@ class DemoUtilsTest {
     }
 
     @Test
+    @DisplayName("Multiply")
+    void testMultiply() {
+        assertEquals(12, demoUtils.multiply(4, 3));
+    }
+
+    @Test
     @DisplayName("Null & not null")
     void testNullAndNotNull() {
         // System.out.println("Test Null and not null");
