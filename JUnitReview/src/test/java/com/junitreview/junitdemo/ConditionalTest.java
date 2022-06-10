@@ -58,4 +58,16 @@ class ConditionalTest {
     void testForJavaRangeMin() {
         // execute method and perform assets
     }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named="LUV2CODE_ENV", matches = "DEV")
+    void testForDevEnvironment() {
+        // execute method and perform assets
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named="LUV2CODE_SYS_PROP", matches = "CI_CD_DEPLOY")
+    void testForSystemProperty() {
+        // execute method and perform assets
+    }
 }
