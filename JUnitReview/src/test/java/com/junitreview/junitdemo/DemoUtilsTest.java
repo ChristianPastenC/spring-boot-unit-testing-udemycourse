@@ -9,14 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 // @DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 class DemoUtilsTest {
-
     DemoUtils demoUtils;
-
     @BeforeEach
     void setupBeforeEach() {
         demoUtils = new DemoUtils();
     }
-
     @Test
     @DisplayName("Equals & not equals")
     void testEqualsAndNotEquals() {
@@ -26,13 +23,11 @@ class DemoUtilsTest {
         assertNotEquals(6, demoUtils.add(1, 9),
                 "1+9 must not be 6");
     }
-
     @Test
     @DisplayName("Multiply")
     void testMultiply() {
         assertEquals(12, demoUtils.multiply(4, 3));
     }
-
     @Test
     @DisplayName("Null & not null")
     void testNullAndNotNull() {
@@ -45,7 +40,6 @@ class DemoUtilsTest {
         assertNotNull(demoUtils.checkNull(str2),
                 "object should not be null");
     }
-
     @Test
     @DisplayName("Same and not same")
     void testSameAndNotSame() {
@@ -58,7 +52,6 @@ class DemoUtilsTest {
         assertNotSame(str, demoUtils.getAcademy(),
                 "Objects should not refer the same object");
     }
-
     @Test
     @DisplayName("True and false")
     void testTrueFalse() {
@@ -70,7 +63,6 @@ class DemoUtilsTest {
         assertFalse(demoUtils.isGreater(gradeTwo, gradeOne),
                 "should be return false");
     }
-
     @Test
     @DisplayName("Array Equals")
     void testArrayEquals() {
@@ -81,7 +73,6 @@ class DemoUtilsTest {
                 "Arrays should be the same"
         );
     }
-
     @Test
     @DisplayName("Iterable Equals")
     void testIterableEquals() {
@@ -92,7 +83,6 @@ class DemoUtilsTest {
                 "Should be the same list"
         );
     }
-
     @Test
     @DisplayName("Lines Match")
     void testLineMatch() {
@@ -103,7 +93,6 @@ class DemoUtilsTest {
                 "List should match"
         );
     }
-
     @Test
     @DisplayName("Throws & doesn't throw")
     void testThrowsAndDoesNotThrow() {
@@ -117,7 +106,6 @@ class DemoUtilsTest {
                 "Should not throw exception"
         );
     }
-
     @Test
     @DisplayName("Timeout")
     // @Order(1)
