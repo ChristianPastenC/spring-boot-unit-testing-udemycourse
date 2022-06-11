@@ -22,8 +22,8 @@ public class FizzBuzz {
 
         return result.toString();
     }
-
-    /*
+}
+/*
     public static String compute(int i) {
         if( (i % 3 == 0 ) && (i % 5 == 0)){
             return "FizzBuzz";
@@ -36,6 +36,4 @@ public class FizzBuzz {
             return Integer.toString(i);
         }
     }
-    */
-
-}
+*/
