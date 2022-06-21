@@ -13,6 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @TestPropertySource("/application.properties")
@@ -71,6 +73,19 @@ public class StudentAndGradesServiceTest {
          deletedCollegeStudent = studentDao.findById(1);
 
          assertFalse(deletedCollegeStudent.isPresent(), "Return false");
+    }
+
+    @Test
+    public void getGradebookService() {
+         Iterable<CollegeStudent> iterableCollegeStudent = studentService.getGradebook();
+
+         List<CollegeStudent> collegeStudents = new ArrayList<>();
+
+         for (CollegeStudent collegeStudent : iterableCollegeStudent) {
+             collegeStudents.add(collegeStudent);
+         }
+
+         assertEquals(1,collegeStudents.size());
     }
 
     @AfterEach
