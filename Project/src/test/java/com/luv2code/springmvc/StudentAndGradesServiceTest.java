@@ -13,6 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Optional;
+
 @TestPropertySource("/application.properties")
 @SpringBootTest
 public class StudentAndGradesServiceTest {
@@ -56,6 +58,19 @@ public class StudentAndGradesServiceTest {
         assertTrue(studentService.checkIfStudentIsNull(1));
 
         assertFalse(studentService.checkIfStudentIsNull(0 ));
+    }
+
+    @Test
+    public void deleteStudentService(){
+         Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+
+         assertTrue(deletedCollegeStudent.isPresent(), "Return True");
+
+         studentService.deleteStudent(1);
+
+         deletedCollegeStudent = studentDao.findById(1);
+
+         assertFalse(deletedCollegeStudent.isPresent(), "Return false");
     }
 
     @AfterEach
