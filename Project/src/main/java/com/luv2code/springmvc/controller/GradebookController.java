@@ -3,6 +3,7 @@ package com.luv2code.springmvc.controller;
 import com.luv2code.springmvc.models.*;
 import com.luv2code.springmvc.service.StudentAndGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,14 @@ public class GradebookController {
     public String createStudent(@ModelAttribute("student") CollegeStudent student, Model m) {
         studentService.createStudent(student.getFirstname(), student.getLastname(),
                 student.getEmailAddress());
+        Iterable<CollegeStudent> collegeStudents = studentService.getGradebook();
+        m.addAttribute("students", collegeStudents);
+        return "index";
+    }
+
+    @GetMapping("/delete/student/{id}")
+    public String deleteStudent(@PathVariable int id, Model m) {
+        studentService.deleteStudent(id);
         Iterable<CollegeStudent> collegeStudents = studentService.getGradebook();
         m.addAttribute("students", collegeStudents);
         return "index";
