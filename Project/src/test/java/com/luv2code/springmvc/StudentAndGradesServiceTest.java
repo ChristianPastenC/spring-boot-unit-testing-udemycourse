@@ -21,6 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,14 +78,26 @@ public class StudentAndGradesServiceTest {
     @Test
     public void deleteStudentService(){
          Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+         Optional<MathGrade> deletedMathGrade = mathGradeDao.findById(1);
+         Optional<HistoryGrade> deletedHistoryGrade = historyGradeDao.findById(1);
+         Optional<ScienceGrade> deletedScienceGrade = scienceGradeDao.findById(1);
 
          assertTrue(deletedCollegeStudent.isPresent(), "Return True");
+         assertTrue(deletedMathGrade.isPresent());
+         assertTrue(deletedScienceGrade.isPresent());
+         assertTrue(deletedHistoryGrade.isPresent());
 
          studentService.deleteStudent(1);
 
          deletedCollegeStudent = studentDao.findById(1);
+         deletedMathGrade = mathGradeDao.findById(1);
+         deletedScienceGrade = scienceGradeDao.findById(1);
+         deletedHistoryGrade = historyGradeDao.findById(1);
 
          assertFalse(deletedCollegeStudent.isPresent(), "Return false");
+         assertFalse(deletedMathGrade.isPresent());
+         assertFalse(deletedScienceGrade.isPresent());
+         assertFalse(deletedHistoryGrade.isPresent());
     }
 
     @Sql("/insertData.sql")
@@ -114,9 +127,12 @@ public class StudentAndGradesServiceTest {
         Iterable<HistoryGrade> historyGrades = historyGradeDao.findGradeByStudentId(1);
 
         // Verify there is grades
-        assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
-        assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
-        assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
+        assertTrue(((Collection<MathGrade>) mathGrades).size() == 2,
+                "Student has math grades");
+        assertTrue(((Collection<MathGrade>) mathGrades).size() == 2,
+                "Student has science grades");
+        assertTrue(((Collection<MathGrade>) mathGrades).size() == 2,
+                "Student has history grades");
     }
 
     @Test
@@ -125,6 +141,24 @@ public class StudentAndGradesServiceTest {
          assertFalse(studentService.createGrade(-5, 1, "math"));
          assertFalse(studentService.createGrade(80.50, 2, "math"));
          assertFalse(studentService.createGrade(80.50, 1, "Literature"));
+    }
+
+    @Test
+    public void deleteGradeService() {
+         assertEquals(1, studentService.deleteGrade(1, "math"),
+                 "Returns student id after delete ");
+         assertEquals(1, studentService.deleteGrade(1, "science"),
+                "Returns student id after delete ");
+         assertEquals(1, studentService.deleteGrade(1, "history"),
+                "Returns student id after delete ");
+    }
+
+    @Test
+    public void deleteGradeServiceReturnStudentIdOfZero() {
+         assertEquals(0, studentService.deleteGrade(0, "science"),
+                 "No student should have 0 id");
+         assertEquals(0, studentService.deleteGrade(1, "literature"),
+                "No student should have a literature class");
     }
 
     @AfterEach
