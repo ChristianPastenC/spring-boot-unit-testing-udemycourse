@@ -50,25 +50,21 @@ public class StudentAndGradesServiceTest {
      public void setupDatabase(){
          jdbc.execute("insert into student(id, firstname, lastname, email_address)" +
                  "values (1, 'Christian', 'Pasten', 'christian_pasten@outlook.com')");
+
+         jdbc.execute("insert into math_grade(id, student_id, grade) values (1, 1, 100.00)");
+
+         jdbc.execute("insert into science_grade(id, student_id, grade) values (1, 1, 100.00)");
+
+         jdbc.execute("insert into history_grade(id, student_id, grade) values (1, 1, 100.00)");
      }
 
     @Test
     public void createStudentService(){
-        studentService.createStudent(
-                "Christian",
-                "Pasten",
-                "christian_pasten@outlook.com"
-        );
+        studentService.createStudent("Chad", "Darby", "chad.darby@luv2code_school.com");
 
-         CollegeStudent student = studentDao.findByEmailAddress(
-                 "christian_pasten@outlook.com"
-         );
+        CollegeStudent student = studentDao.findByEmailAddress("chad.darby@luv2code_school.com");
 
-         assertEquals(
-                 "christian_pasten@outlook.com",
-                 student.getEmailAddress(),
-                 "find by email"
-         );
+        assertEquals("chad.darby@luv2code_school.com", student.getEmailAddress(), "find by email");
     }
 
     @Test
@@ -134,5 +130,8 @@ public class StudentAndGradesServiceTest {
     @AfterEach
     public void setupAfterTransaction() {
          jdbc.execute("DELETE from student");
+         jdbc.execute("DELETE from math_grade");
+         jdbc.execute("DELETE from science_grade");
+         jdbc.execute("DELETE from history_grade");
     }
 }
