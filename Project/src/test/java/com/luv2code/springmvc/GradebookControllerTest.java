@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("/application.properties")
@@ -268,13 +269,13 @@ public class GradebookControllerTest {
     }
 
     @Test
-    public void deleteAValidGradeHttpRequest() throws Exception{
+    public void deleteAValidGradeHttpRequest() throws Exception {
         Optional<MathGrade> mathGrade = mathGradeDao.findById(1);
 
         assertTrue(mathGrade.isPresent());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                .get("/grades/{id}/{gradeType}", "math"))
+                        .get("/grades/{id}/{gradeType}", "math"))
                 .andExpect(status().isOk()).andReturn();
 
         ModelAndView mav = mvcResult.getModelAndView();
@@ -284,6 +285,21 @@ public class GradebookControllerTest {
         mathGrade = mathGradeDao.findById(1);
 
         assertFalse(mathGrade.isPresent());
+    }
+
+    @Test
+    public void deleteGradeHttpRequestStudentIdDoesNotExist() throws Exception {
+        Optional<MathGrade> mathGrade = mathGradeDao.findById(2);
+
+        assertFalse(mathGrade.isPresent());
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .get("/grades/{id}/{gradeType}", 2, "math"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "error");
     }
 
     @AfterEach
