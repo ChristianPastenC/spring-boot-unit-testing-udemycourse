@@ -31,13 +31,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestPropertySource("/application.properties")
+@TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
 @SpringBootTest
 public class GradebookControllerTest {
@@ -275,12 +273,12 @@ public class GradebookControllerTest {
         assertTrue(mathGrade.isPresent());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/grades/{id}/{gradeType}", "math"))
+                        .get("/grades/{id}/{gradeType}", 1, "math"))
                 .andExpect(status().isOk()).andReturn();
 
         ModelAndView mav = mvcResult.getModelAndView();
 
-        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+        ModelAndViewAssert.assertViewName(mav, "StudentInformation");
 
         mathGrade = mathGradeDao.findById(1);
 
