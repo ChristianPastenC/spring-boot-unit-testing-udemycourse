@@ -30,6 +30,7 @@ import javax.persistence.PersistenceContext;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
@@ -130,6 +131,22 @@ public class GradebookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void createStudetnHttpRequest() throws Exception {
+        student.setFirstname("Christian");
+        student.setLastname("Pasten");
+        student.setEmailAddress("christian_pasten@outlook.com");
+
+        mockMvc.perform(post("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(student)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        CollegeStudent verifyStudent = studentDao.findByEmailAddress("christian_pasten@outlook.com");
+        assertNotNull(verifyStudent, "Student should be valid");
     }
 
     @AfterEach
