@@ -21,10 +21,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
@@ -93,15 +99,14 @@ public class GradebookControllerTest {
     public static final MediaType APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON;
 
     @BeforeAll
-    public static void setuo() {
+    public static void setup() {
         request = new MockHttpServletRequest();
 
-        request.setParameter("firstname", "Chad");
+        request.setParameter("firstname", "Christian");
 
-        request.setParameter("lastname", "Darby");
+        request.setParameter("lastname", "Pasten");
 
-        request.setParameter("emailAddress", "chad.darby@luv2code_school.com");
-
+        request.setParameter("emailAddress", "christian_pasten@outlook.com");
 
     }
 
@@ -111,6 +116,20 @@ public class GradebookControllerTest {
         jdbc.execute(sqlAddMathGrade);
         jdbc.execute(sqlAddScienceGrade);
         jdbc.execute(sqlAddHistoryGrade);
+    }
+
+    @Test
+    public void getStudentHttpRequest() throws Exception {
+        student.setFirstname("Christian");
+        student.setLastname("Pasten");
+        student.setEmailAddress("christian_pasten@outlook.com");
+        entityManager.persist(student);
+        entityManager.flush();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @AfterEach
